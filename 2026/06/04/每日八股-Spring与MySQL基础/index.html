@@ -1,0 +1,1346 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>每日八股 | Spring/SpringBoot/SpringMVC、Starter、嵌入式服务器、MyBatis、SQL注入、索引、聚簇非聚簇 | 蓝原柚子的技术小站</title><meta name="author" content="蓝原柚子"><meta name="copyright" content="蓝原柚子"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="2026&#x2F;6&#x2F;41. Spring、Spring Boot、Spring MVC 的区别   对比 Spring Spring MVC Spring Boot    定位 核心框架（基础底座） Web 层框架（处理 HTTP） 快速构建工具（开箱即用）   核心能力 IOC + AOP DispatcherServlet + Controller 自动配置 + starter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日八股 | Spring&#x2F;SpringBoot&#x2F;SpringMVC、Starter、嵌入式服务器、MyBatis、SQL注入、索引、聚簇非聚簇">
+<meta property="og:url" content="https://m00tin3.github.io/2026/06/04/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-Spring%E4%B8%8EMySQL%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="蓝原柚子的技术小站">
+<meta property="og:description" content="2026&#x2F;6&#x2F;41. Spring、Spring Boot、Spring MVC 的区别   对比 Spring Spring MVC Spring Boot    定位 核心框架（基础底座） Web 层框架（处理 HTTP） 快速构建工具（开箱即用）   核心能力 IOC + AOP DispatcherServlet + Controller 自动配置 + starter">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://m00tin3.oss-cn-shanghai.aliyuncs.com/%E8%8A%BF%E8%A1%A3.jpg">
+<meta property="article:published_time" content="2026-06-04T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-06T03:25:04.974Z">
+<meta property="article:author" content="蓝原柚子">
+<meta property="article:tag" content="Spring Boot">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="面试题">
+<meta property="article:tag" content="每日八股">
+<meta property="article:tag" content="索引">
+<meta property="article:tag" content="Spring">
+<meta property="article:tag" content="Spring MVC">
+<meta property="article:tag" content="Starter">
+<meta property="article:tag" content="嵌入式服务器">
+<meta property="article:tag" content="MyBatis">
+<meta property="article:tag" content="SQL注入">
+<meta property="article:tag" content="聚簇索引">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://m00tin3.oss-cn-shanghai.aliyuncs.com/%E8%8A%BF%E8%A1%A3.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "每日八股 | Spring/SpringBoot/SpringMVC、Starter、嵌入式服务器、MyBatis、SQL注入、索引、聚簇非聚簇",
+  "url": "https://m00tin3.github.io/2026/06/04/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-Spring%E4%B8%8EMySQL%E5%9F%BA%E7%A1%80/",
+  "image": "https://m00tin3.oss-cn-shanghai.aliyuncs.com/%E8%8A%BF%E8%A1%A3.jpg",
+  "datePublished": "2026-06-04T00:00:00.000Z",
+  "dateModified": "2026-06-06T03:25:04.974Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "蓝原柚子",
+      "url": "https://m00tin3.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://m00tin3.github.io/2026/06/04/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-Spring%E4%B8%8EMySQL%E5%9F%BA%E7%A1%80/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '每日八股 | Spring/SpringBoot/SpringMVC、Starter、嵌入式服务器、MyBatis、SQL注入、索引、聚簇非聚簇',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://m00tin3.oss-cn-shanghai.aliyuncs.com/%E8%8A%BF%E8%A1%A3.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">102</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">蓝原柚子的技术小站</span></a><a class="nav-page-title" href="/"><span class="site-name">每日八股 | Spring/SpringBoot/SpringMVC、Starter、嵌入式服务器、MyBatis、SQL注入、索引、聚簇非聚簇</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">每日八股 | Spring/SpringBoot/SpringMVC、Starter、嵌入式服务器、MyBatis、SQL注入、索引、聚簇非聚簇</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-04T00:00:00.000Z" title="发表于 2026-06-04 08:00:00">2026-06-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-06T03:25:04.974Z" title="更新于 2026-06-06 11:25:04">2026-06-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">7.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>29分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="2026-6-4"><a href="#2026-6-4" class="headerlink" title="2026&#x2F;6&#x2F;4"></a>2026&#x2F;6&#x2F;4</h2><h3 id="1-Spring、Spring-Boot、Spring-MVC-的区别"><a href="#1-Spring、Spring-Boot、Spring-MVC-的区别" class="headerlink" title="1. Spring、Spring Boot、Spring MVC 的区别"></a>1. Spring、Spring Boot、Spring MVC 的区别</h3><table>
+<thead>
+<tr>
+<th>对比</th>
+<th>Spring</th>
+<th>Spring MVC</th>
+<th>Spring Boot</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>定位</td>
+<td><strong>核心框架</strong>（基础底座）</td>
+<td><strong>Web 层框架</strong>（处理 HTTP）</td>
+<td><strong>快速构建工具</strong>（开箱即用）</td>
+</tr>
+<tr>
+<td>核心能力</td>
+<td>IOC + AOP</td>
+<td>DispatcherServlet + Controller</td>
+<td>自动配置 + starter + 内嵌服务器</td>
+</tr>
+<tr>
+<td>解决什么问题</td>
+<td>解耦 + 关注点分离</td>
+<td>要写 Servlet → 现在写 Controller</td>
+<td>要手动配 XML → 现在零 XML 启动</td>
+</tr>
+<tr>
+<td>依赖关系</td>
+<td>独立存在</td>
+<td><strong>依赖 Spring</strong></td>
+<td><strong>依赖 Spring + Spring MVC</strong></td>
+</tr>
+</tbody></table>
+<p><strong>一句话区分</strong>：</p>
+<ul>
+<li><strong>Spring</strong> &#x3D; 全家桶的<strong>根基</strong>（IOC + AOP），任何 Spring 项目都离不开它</li>
+<li><strong>Spring MVC</strong> &#x3D; Spring 生态的 <strong>Web 层框架</strong>，处理 HTTP 请求，替代原始的 Servlet</li>
+<li><strong>Spring Boot</strong> &#x3D; <strong>脚手架</strong>，帮你自动配置好 Spring + Spring MVC 等一堆东西，一键启动</li>
+</ul>
+<p><strong>一、三层关系</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Spring Boot（最外层）</span><br><span class="line">  ├── 内嵌 Spring MVC（Web 层）</span><br><span class="line">  │   └── 依赖 Spring Framework</span><br><span class="line">  └── 自动配置 + starter + 内嵌服务器</span><br></pre></td></tr></table></figure>
+
+<p><strong>二、各自的核心角色</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Spring Framework：</span><br><span class="line">  @Component、@Service、@Autowired → IOC 容器管理对象</span><br><span class="line">  @Transactional、AOP → 声明式事务、日志</span><br><span class="line">  BeanFactory / ApplicationContext → 创建和管理 Bean</span><br><span class="line"></span><br><span class="line">Spring MVC：</span><br><span class="line">  @Controller、@RestController → 接收 HTTP 请求</span><br><span class="line">  @RequestMapping → 映射 URL 到方法</span><br><span class="line">  DispatcherServlet → 请求分发（核心 Servlet）</span><br><span class="line">  HandlerAdapter / ViewResolver → 处理 Controller 返回结果</span><br><span class="line"></span><br><span class="line">Spring Boot：</span><br><span class="line">  @SpringBootApplication → 一行注解 = @Configuration + @EnableAutoConfiguration + @ComponentScan</span><br><span class="line">  spring-boot-starter-web → 一个依赖引入 Spring MVC + Tomcat + Jackson 全套</span><br><span class="line">  application.yml → 集中配置数据库、端口、日志等</span><br><span class="line">  java -jar → 内嵌 Tomcat 直接启动，不用部署 war 包</span><br></pre></td></tr></table></figure>
+
+<p><strong>三、没有 Spring Boot 时，Spring MVC 怎么用？</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- web.xml：手动配 DispatcherServlet --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>dispatcher<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- spring-servlet.xml：手动配扫描包、视图解析器 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.example&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 手动配 Tomcat，打 war 包部署 --&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>有了 Spring Boot 之后：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">App</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(App.class, args);  <span class="comment">// 一行启动</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>四、三者的问题域</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Spring</th>
+<th>Spring MVC</th>
+<th>Spring Boot</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>对象怎么创建和管理？</td>
+<td>✅ IOC 容器</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>日志&#x2F;事务怎么统一处理？</td>
+<td>✅ AOP</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>HTTP 请求怎么路由到方法？</td>
+<td></td>
+<td>✅ DispatcherServlet</td>
+<td></td>
+</tr>
+<tr>
+<td>怎么快速搭建项目？</td>
+<td></td>
+<td></td>
+<td>✅ 自动配置 + starter</td>
+</tr>
+<tr>
+<td>怎么部署？</td>
+<td></td>
+<td></td>
+<td>✅ 内嵌 Tomcat，java -jar</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Spring Boot 可以不用 Spring MVC 吗？</td>
+<td>可以，如纯后台服务用 Spring Boot + Spring Data JPA，不引入 Web starter</td>
+</tr>
+<tr>
+<td>Spring MVC 必须用 Spring Boot 吗？</td>
+<td>不必，传统 Spring 项目手动配置也能用 Spring MVC</td>
+</tr>
+<tr>
+<td>面试说 Spring 通常指什么？</td>
+<td>除非特别说 Spring Boot &#x2F; Spring MVC，通常指 <strong>Spring Framework</strong>（IOC+AOP）</td>
+</tr>
+<tr>
+<td>Spring Boot 的核心优势？</td>
+<td>自动配置 + 起步依赖 + 内嵌服务器 → 从半天搭建到 5 分钟跑起来</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="2-Spring-MVC-的工作流程"><a href="#2-Spring-MVC-的工作流程" class="headerlink" title="2. Spring MVC 的工作流程"></a>2. Spring MVC 的工作流程</h3><p><strong>一、一张图走完一个 HTTP 请求</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">请求：GET /users/1</span><br><span class="line">  │</span><br><span class="line">  ▼</span><br><span class="line">① DispatcherServlet（前端控制器，所有请求的入口）</span><br><span class="line">  │</span><br><span class="line">  ▼</span><br><span class="line">② HandlerMapping（找谁处理这个请求）</span><br><span class="line">  │  返回 Handler + Interceptor 链</span><br><span class="line">  ▼</span><br><span class="line">③ HandlerAdapter（调用找到的 Controller 方法）</span><br><span class="line">  │  调用 Controller.getUser(1)</span><br><span class="line">  ▼</span><br><span class="line">④ Controller（业务处理，返回 ModelAndView 或 @ResponseBody JSON）</span><br><span class="line">  │  返回 &#123; &quot;id&quot;: 1, &quot;name&quot;: &quot;张三&quot; &#125;</span><br><span class="line">  ▼</span><br><span class="line">⑤ ViewResolver（视图解析器，将逻辑视图名转为物理视图 → @ResponseBody 则跳过此步）</span><br><span class="line">  │</span><br><span class="line">  ▼</span><br><span class="line">⑥ 返回响应给前端</span><br></pre></td></tr></table></figure>
+
+<p><strong>二、9 大组件</strong></p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>策略接口</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>DispatcherServlet</strong></td>
+<td>—</td>
+<td>前端总控，协调各组件</td>
+</tr>
+<tr>
+<td><strong>HandlerMapping</strong></td>
+<td><code>HandlerMapping</code></td>
+<td>URL → Handler</td>
+</tr>
+<tr>
+<td><strong>HandlerAdapter</strong></td>
+<td><code>HandlerAdapter</code></td>
+<td>调用 Handler，统一不同 Controller 的调用方式</td>
+</tr>
+<tr>
+<td><strong>HandlerInterceptor</strong></td>
+<td><code>HandlerInterceptor</code></td>
+<td>拦截器（前置、后置、完成）</td>
+</tr>
+<tr>
+<td><strong>Controller</strong></td>
+<td>—</td>
+<td>业务处理</td>
+</tr>
+<tr>
+<td><strong>ModelAndView</strong></td>
+<td>—</td>
+<td>封装数据和视图名</td>
+</tr>
+<tr>
+<td><strong>ViewResolver</strong></td>
+<td><code>ViewResolver</code></td>
+<td>逻辑视图名 → 物理视图（如 <code>&quot;users&quot;</code> → <code>/WEB-INF/views/users.jsp</code>）</td>
+</tr>
+<tr>
+<td><strong>View</strong></td>
+<td><code>View</code></td>
+<td>渲染视图</td>
+</tr>
+<tr>
+<td><strong>HttpMessageConverter</strong></td>
+<td><code>HttpMessageConverter</code></td>
+<td><code>@ResponseBody</code> 时将返回值转为 JSON&#x2F;XML</td>
+</tr>
+</tbody></table>
+<p><strong>三、详细执行流程</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1. 请求到达 DispatcherServlet</span><br><span class="line">2. HandlerMapping 根据 URL 找到对应的 Handler 和 Interceptor 链</span><br><span class="line">3. HandlerAdapter 调用 Handler（即 Controller 方法）</span><br><span class="line">   - 调用前：参数解析、类型转换、校验</span><br><span class="line">   - 调用：反射执行方法</span><br><span class="line">   - 调用后：返回值处理</span><br><span class="line">4. Interceptor.postHandle()（后置拦截）</span><br><span class="line">5. ViewResolver 解析视图（@ResponseBody 时跳过）</span><br><span class="line">6. 渲染视图 / 直接写 JSON 到 Response</span><br><span class="line">7. Interceptor.afterCompletion()（最终拦截，清理资源）</span><br></pre></td></tr></table></figure>
+
+<p><strong>四、<code>@ResponseBody</code> vs <code>ModelAndView</code></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>@ResponseBody</th>
+<th>ModelAndView</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>返回什么</td>
+<td>JSON&#x2F;XML 数据</td>
+<td>HTML 页面</td>
+</tr>
+<tr>
+<td>经过 ViewResolver？</td>
+<td>❌ 不走（直接序列化）</td>
+<td>✅ 走</td>
+</tr>
+<tr>
+<td>核心工具</td>
+<td><code>HttpMessageConverter</code></td>
+<td><code>ViewResolver</code> + <code>View</code></td>
+</tr>
+<tr>
+<td>场景</td>
+<td>REST API（前后端分离）</td>
+<td>服务端渲染（JSP、Thymeleaf）</td>
+</tr>
+</tbody></table>
+<p><strong>五、前端分离 vs 传统模式</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">传统 Spring MVC：</span><br><span class="line">  Controller → 返回 ModelAndView → ViewResolver 解析 → JSP 渲染 HTML → 返回页面</span><br><span class="line"></span><br><span class="line">前后端分离（现在）：</span><br><span class="line">  Controller + @ResponseBody → 返回对象 → Jackson 转 JSON → 直接写 Response</span><br><span class="line">  前端不关心后端怎么渲染，只拿 JSON 自己渲染页面</span><br></pre></td></tr></table></figure>
+
+<p><strong>六、DispatcherServlet 源码核心（简化）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DispatcherServlet.doDispatch() 核心流程</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">doDispatch</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 根据请求找 Handler（Controller 方法）</span></span><br><span class="line">    <span class="type">HandlerExecutionChain</span> <span class="variable">chain</span> <span class="operator">=</span> getHandler(request);</span><br><span class="line">    <span class="comment">// 2. 找对应的 Adapter</span></span><br><span class="line">    <span class="type">HandlerAdapter</span> <span class="variable">adapter</span> <span class="operator">=</span> getHandlerAdapter(chain.getHandler());</span><br><span class="line">    <span class="comment">// 3. 执行前置拦截器</span></span><br><span class="line">    chain.applyPreHandle(request, response);</span><br><span class="line">    <span class="comment">// 4. 调用 Controller 方法</span></span><br><span class="line">    <span class="type">ModelAndView</span> <span class="variable">mv</span> <span class="operator">=</span> adapter.handle(request, response, chain.getHandler());</span><br><span class="line">    <span class="comment">// 5. 执行后置拦截器</span></span><br><span class="line">    chain.applyPostHandle(request, response, mv);</span><br><span class="line">    <span class="comment">// 6. 解析视图 / 写 JSON 响应</span></span><br><span class="line">    processDispatchResult(request, response, chain, mv);</span><br><span class="line">    <span class="comment">// 7. 执行完成拦截器</span></span><br><span class="line">    chain.triggerAfterCompletion(request, response);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>前 &#x2F; 后 &#x2F; 完成拦截器执行顺序？</td>
+<td>前(正序) → Controller → 后(倒序) → 完成(倒序)</td>
+</tr>
+<tr>
+<td><code>HandlerAdapter</code> 为什么存在？</td>
+<td>Controller 返回值类型五花八门，Adapter 统一适配，DispatcherServlet 不用关心具体调用方式</td>
+</tr>
+<tr>
+<td><code>@ResponseBody</code> 的 JSON 怎么转出来的？</td>
+<td><code>HttpMessageConverter</code>，默认用 Jackson 序列化</td>
+</tr>
+<tr>
+<td>过滤器和拦截器区别？</td>
+<td>Filter 是 Servlet 级别（Spring 外面一层），Interceptor 是 Spring MVC 级别（可拿 Handler 信息）</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="3-Spring-Boot-自动配置原理"><a href="#3-Spring-Boot-自动配置原理" class="headerlink" title="3. Spring Boot 自动配置原理"></a>3. Spring Boot 自动配置原理</h3><p><strong>一句话</strong>：<code>@SpringBootApplication</code> 里的 <code>@EnableAutoConfiguration</code>，通过 <code>@Import</code> 导入一个 <code>AutoConfigurationImportSelector</code>，它会读取 <code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code> 文件，加载所有官方&#x2F;第三方自动配置类，再通过 <code>@Conditional</code> 按条件激活。</p>
+<p><strong>一、<code>@SpringBootApplication</code> 拆解</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span>  <span class="comment">// = 以下三个注解之和</span></span><br><span class="line">├── <span class="meta">@SpringBootConfiguration</span>   <span class="comment">// = @Configuration，标记配置类</span></span><br><span class="line">├── <span class="meta">@EnableAutoConfiguration</span>   <span class="comment">// ← 自动配置的入口</span></span><br><span class="line">└── <span class="meta">@ComponentScan</span>             <span class="comment">// 扫描当前包及子包下的 Bean</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>二、自动配置的触发链路</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">  └── @EnableAutoConfiguration</span><br><span class="line">        └── @Import(AutoConfigurationImportSelector.class)</span><br><span class="line">              │</span><br><span class="line">              ▼</span><br><span class="line"> AutoConfigurationImportSelector.selectImports()</span><br><span class="line">  │  读取 META-INF/spring/org.springframework.boot.autoconfigure.</span><br><span class="line">  │       AutoConfiguration.imports（Spring Boot 3.x）</span><br><span class="line">  │  旧版：spring.factories（Spring Boot 2.x）</span><br><span class="line">  ▼</span><br><span class="line"> 加载所有自动配置类（约 150+ 个）</span><br><span class="line">  │</span><br><span class="line">  ▼</span><br><span class="line"> 每个配置类上都有 @Conditional 注解</span><br><span class="line">  │  如 @ConditionalOnClass → 有 DataSource 类才配数据源</span><br><span class="line">  │  如 @ConditionalOnBean → 容器中有某个 Bean 才配置</span><br><span class="line">  │  如 @ConditionalOnMissingBean → 用户没自己配才用默认的</span><br><span class="line">  ▼</span><br><span class="line"> 最终生效的配置类组装成一个完整的 Spring 容器</span><br></pre></td></tr></table></figure>
+
+<p><strong>三、自动配置的核心：<code>@Conditional</code> 条件装配</strong></p>
+<table>
+<thead>
+<tr>
+<th>条件注解</th>
+<th>触发条件</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@ConditionalOnClass</code></td>
+<td>classpath 存在指定类</td>
+<td>有 <code>DataSource</code> → 配数据源</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnMissingBean</code></td>
+<td>容器中没有指定 Bean</td>
+<td>用户没自定义 <code>RestTemplate</code> → 用默认的</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnProperty</code></td>
+<td>配置文件中有指定属性</td>
+<td><code>spring.redis.enabled=true</code> → 配 Redis</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnBean</code></td>
+<td>容器中有指定 Bean</td>
+<td>有 <code>TransactionManager</code> → 配事务</td>
+</tr>
+<tr>
+<td><code>@ConditionalOnWebApplication</code></td>
+<td>当前是 Web 应用</td>
+<td>Web 项目才配 DispatcherServlet</td>
+</tr>
+</tbody></table>
+<p><strong>四、举个实际的例子：数据源自动配置</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DataSourceAutoConfiguration 源码简化</span></span><br><span class="line"><span class="meta">@AutoConfiguration</span></span><br><span class="line"><span class="meta">@ConditionalOnClass(&#123; DataSource.class, EmbeddedDatabaseType.class &#125;)</span>  <span class="comment">// classpath 有 DataSource 类</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(DataSourceProperties.class)</span>             <span class="comment">// 读取 spring.datasource.* 配置</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DataSourceAutoConfiguration</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Configuration</span></span><br><span class="line">    <span class="meta">@ConditionalOnMissingBean(DataSource.class)</span>  <span class="comment">// 用户没自己配 DataSource Bean</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">EmbeddedDatabaseConfiguration</span> &#123;</span><br><span class="line">        <span class="comment">// 没有配置外置数据库 → 自动配 H2 内嵌数据库</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Configuration</span></span><br><span class="line">    <span class="meta">@ConditionalOnProperty(name = &quot;spring.datasource.url&quot;)</span>  <span class="comment">// 用户配了数据库连接</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">PooledDataSourceConfiguration</span> &#123;</span><br><span class="line">        <span class="comment">// 创建连接池（HikariCP），读 spring.datasource.* 配置</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>工作逻辑</strong>：</p>
+<ul>
+<li>用户导入了 MySQL 驱动 + 配了 <code>spring.datasource.url</code> → 自动创建 <code>HikariCP DataSource</code></li>
+<li>用户自己写了 <code>@Bean DataSource</code> → <code>@ConditionalOnMissingBean</code> 不满足 → 跳过，用用户的</li>
+<li>classpath 没有 <code>DataSource</code> 类 → <code>@ConditionalOnClass</code> 不满足 → 整个配置类不加载</li>
+</ul>
+<p><strong>五、Spring Boot 3.x vs 2.x 的变化</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Spring Boot 2.x</th>
+<th>Spring Boot 3.x</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>配置文件</td>
+<td><code>META-INF/spring.factories</code></td>
+<td><code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code></td>
+</tr>
+<tr>
+<td>注解</td>
+<td><code>@Configuration</code></td>
+<td><code>@AutoConfiguration</code>（新增，语义更明确）</td>
+</tr>
+<tr>
+<td>顺序控制</td>
+<td><code>@AutoConfigureAfter/Before</code></td>
+<td>同，更推荐用 imports 文件本身的行序</td>
+</tr>
+</tbody></table>
+<p><strong>六、如何查看哪些自动配置生效了？</strong></p>
+<p>启动时加：<code>--debug</code> 或 <code>logging.level.org.springframework.boot.autoconfigure=DEBUG</code></p>
+<p>日志输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Positive matches:        ← 生效的自动配置</span><br><span class="line">  DataSourceAutoConfiguration matched</span><br><span class="line">Negative matches:        ← 没生效的（条件不满足）</span><br><span class="line">  RabbitAutoConfiguration did not match (no RabbitMQ on classpath)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>自动配置核心注解？</td>
+<td><code>@EnableAutoConfiguration</code> → <code>@Import(AutoConfigurationImportSelector.class)</code></td>
+</tr>
+<tr>
+<td>用户怎么覆盖自动配置？</td>
+<td>自己写 <code>@Bean</code>，<code>@ConditionalOnMissingBean</code> 会跳过，用户的优先</td>
+</tr>
+<tr>
+<td>怎么禁用某个自动配置？</td>
+<td><code>@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)</code></td>
+</tr>
+<tr>
+<td><code>spring.factories</code> 是什么？</td>
+<td>2.x 时代的自动配置注册文件，3.x 改为 <code>.imports</code> 文件</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="4-如何理解-Spring-Boot-中的-Starter？"><a href="#4-如何理解-Spring-Boot-中的-Starter？" class="headerlink" title="4. 如何理解 Spring Boot 中的 Starter？"></a>4. 如何理解 Spring Boot 中的 Starter？</h3><p><strong>一句话</strong>：Starter 是一个”一站式的依赖打包器”，把某个功能所需的所有依赖（jar 包 + 自动配置）打包到一起，开发者引入一个 starter 就能用，不用自己管理版本兼容。</p>
+<p><strong>一、没有 Starter 之前</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 要用 Spring MVC + Jackson + Tomcat，一个个手动引入，版本自己管 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-webmvc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 还有 jackson-databind、tomcat-embed-core、validation... --&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>有了 Starter 之后</strong>：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 不需要写版本号！父 POM 统一管理 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>二、Starter 做了什么？</strong></p>
+<p>一个 <strong>starter &#x3D; 依赖集合 + 自动配置类 + 约定好的配置项</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spring-boot-starter-web 包含：</span><br><span class="line">├── Spring MVC（DispatcherServlet、ViewResolver）</span><br><span class="line">├── Jackson（JSON 序列化）</span><br><span class="line">├── Tomcat（内嵌服务器）</span><br><span class="line">├── Validation（参数校验）</span><br><span class="line">└── 一堆底层兼容的 jar 包（版本由 Spring Boot 父 POM 统一管控）</span><br></pre></td></tr></table></figure>
+
+<p><strong>三、Starter 的内部结构（以 MyBatis 为例）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mybatis-spring-boot-starter（空壳，只含 pom.xml，没有代码）</span><br><span class="line">  └── 依赖 → mybatis-spring-boot-autoconfigure（真正的代码所在）</span><br><span class="line">              ├── MybatisAutoConfiguration.java</span><br><span class="line">              └── META-INF/spring/...AutoConfiguration.imports</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>干什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>starter</strong></td>
+<td>空壳，只声明依赖（pom.xml）</td>
+</tr>
+<tr>
+<td><strong>autoconfigure</strong></td>
+<td>真正的代码：自动配置类 + 条件判断 + 属性配置</td>
+</tr>
+</tbody></table>
+<p><strong>四、常见的 Starter</strong></p>
+<table>
+<thead>
+<tr>
+<th>Starter</th>
+<th>一句话</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>spring-boot-starter-web</code></td>
+<td>Web 开发（MVC + Tomcat + Jackson）</td>
+</tr>
+<tr>
+<td><code>spring-boot-starter-data-jpa</code></td>
+<td>JPA 数据库操作</td>
+</tr>
+<tr>
+<td><code>spring-boot-starter-data-redis</code></td>
+<td>Redis（Lettuce + Spring Data Redis）</td>
+</tr>
+<tr>
+<td><code>spring-boot-starter-test</code></td>
+<td>测试（JUnit + Mockito）</td>
+</tr>
+<tr>
+<td><code>spring-boot-starter-security</code></td>
+<td>Spring Security 认证</td>
+</tr>
+<tr>
+<td><code>mybatis-spring-boot-starter</code></td>
+<td>MyBatis 集成（第三方）</td>
+</tr>
+</tbody></table>
+<p><strong>五、如果要自己写一个 Starter</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// autoconfigure 模块：自动配置类</span></span><br><span class="line"><span class="meta">@AutoConfiguration</span></span><br><span class="line"><span class="meta">@ConditionalOnClass(MyService.class)</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(MyProperties.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyAutoConfiguration</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line">    <span class="keyword">public</span> MyService <span class="title function_">myService</span><span class="params">(MyProperties properties)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MyService</span>(properties.getUrl());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// properties：可配置项</span></span><br><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;my&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyProperties</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;localhost:8080&quot;</span>;  <span class="comment">// 默认值 → application.yml 中 my.url 可覆盖</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// starter 模块：pom 引用 autoconfigure + 需要的第三方 jar</span></span><br></pre></td></tr></table></figure>
+
+<p>其他项目引入 <code>my-spring-boot-starter</code> 后零配置即可使用 <code>MyService</code>。</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Starter 是什么？</td>
+<td>一站式依赖打包器 + 自动配置，引入即用</td>
+</tr>
+<tr>
+<td>Starter 和自动配置的关系？</td>
+<td>Starter 引入依赖，autoconfigure 根据条件创建 Bean</td>
+</tr>
+<tr>
+<td>为什么版本号不用写？</td>
+<td>Spring Boot 父 POM 用 <code>dependencyManagement</code> 统一管控</td>
+</tr>
+<tr>
+<td>命名规范？</td>
+<td>官方：<code>spring-boot-starter-xxx</code>；第三方：<code>xxx-spring-boot-starter</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="5-什么是嵌入式服务器？为什么要使用？"><a href="#5-什么是嵌入式服务器？为什么要使用？" class="headerlink" title="5. 什么是嵌入式服务器？为什么要使用？"></a>5. 什么是嵌入式服务器？为什么要使用？</h3><p><strong>一句话</strong>：嵌入式服务器是把 Tomcat&#x2F;Jetty 等 Web 服务器<strong>打成 jar 包嵌入到应用中</strong>，应用启动时自动启动服务器，不需要在外部单独安装和部署。</p>
+<p><strong>一、传统 vs 嵌入式</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">传统方式（Spring MVC 时代）：</span><br><span class="line">  1. 本地装 Tomcat</span><br><span class="line">  2. 把项目打成 war 包</span><br><span class="line">  3. 把 war 包扔到 Tomcat 的 webapps 目录 → 启动 Tomcat</span><br><span class="line">  4. 一台机器一个 Tomcat，每个项目一个 war</span><br><span class="line"></span><br><span class="line">嵌入式方式（Spring Boot）：</span><br><span class="line">  1. 写完代码，直接 java -jar myapp.jar</span><br><span class="line">  2. 服务器嵌入在 jar 包里 → 启动即运行</span><br><span class="line">  3. 一个 jar 一个应用 → 随便部署到任何有 JDK 的地方</span><br></pre></td></tr></table></figure>
+
+<p><strong>二、为什么看起来简单那么多？</strong></p>
+<p>因为 Tomcat 从”外部容器”变成了”一个 jar 包依赖”：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 引入 Web starter，内部已经包含了嵌入式 Tomcat --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- tomcat-embed-core 就在这个 starter 的依赖树里 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Spring Boot 启动时，自动配置类检测到 classpath 有 Tomcat 的类 → 自动创建并启动一个内嵌的 Tomcat 实例。</p>
+<p><strong>三、嵌入式服务器的核心好处</strong></p>
+<table>
+<thead>
+<tr>
+<th>好处</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>部署简单</strong></td>
+<td><code>java -jar</code> 一行命令，不需要装 Tomcat、配 war</td>
+</tr>
+<tr>
+<td><strong>独立运行</strong></td>
+<td>每个应用独立一个 JVM → 资源隔离、升级互不影响</td>
+</tr>
+<tr>
+<td><strong>微服务友好</strong></td>
+<td>Docker 镜像就是一个 jar → 容器化部署天然适配</td>
+</tr>
+<tr>
+<td><strong>环境一致</strong></td>
+<td>服务器版本写死在依赖里 → 开发&#x2F;测试&#x2F;生产一模一样，告别”我本地是好的”</td>
+</tr>
+<tr>
+<td><strong>运维简单</strong></td>
+<td>不用管理 Tomcat 的端口、线程池、日志 → 全部在 application.yml 里配置</td>
+</tr>
+</tbody></table>
+<p><strong>四、传统架构 vs 微服务架构</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">传统：</span><br><span class="line">  Tomcat（外部服务器）</span><br><span class="line">    ├── app1.war</span><br><span class="line">    ├── app2.war    ← 所有应用共享同一个 Tomcat，一个挂了可能影响其他</span><br><span class="line">    └── app3.war</span><br><span class="line"></span><br><span class="line">Spring Boot：</span><br><span class="line">  JVM1 ─── app1.jar（内嵌 Tomcat，端口 8080）</span><br><span class="line">  JVM2 ─── app2.jar（内嵌 Tomcat，端口 8081）  ← 各管各的</span><br><span class="line">  JVM3 ─── app3.jar（内嵌 Tomcat，端口 8082）</span><br></pre></td></tr></table></figure>
+
+<p><strong>五、不只是 Tomcat</strong></p>
+<table>
+<thead>
+<tr>
+<th>服务器</th>
+<th>怎么替换</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>默认 <strong>Tomcat</strong></td>
+<td>无需任何操作</td>
+</tr>
+<tr>
+<td>Jetty</td>
+<td>排除 Tomcat，添加 <code>spring-boot-starter-jetty</code></td>
+</tr>
+<tr>
+<td>Undertow</td>
+<td>排除 Tomcat，添加 <code>spring-boot-starter-undertow</code></td>
+</tr>
+<tr>
+<td>Netty</td>
+<td>WebFlux 默认（响应式）</td>
+</tr>
+</tbody></table>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 换成 Jetty --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-tomcat<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jetty<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>六、Spring Boot 怎么启动内嵌 Tomcat 的？</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SpringApplication.run() 内部：</span></span><br><span class="line"><span class="comment">// 1. 创建 ApplicationContext</span></span><br><span class="line"><span class="comment">// 2. 检测到是 Web 环境 → 创建 ServletWebServerApplicationContext</span></span><br><span class="line"><span class="comment">// 3. 调用 onRefresh() → 触发 ServletWebServerFactory</span></span><br><span class="line"><span class="comment">// 4. ServletWebServerFactory 从 Bean 容器里拿到 ServletWebServerFactory</span></span><br><span class="line"><span class="comment">//    （TomcatJettyNettyServletWebServerFactory）</span></span><br><span class="line"><span class="comment">// 5. getWebServer() → 启动内置容器 → 监听端口</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>嵌入式服务器的最大优势？</td>
+<td><code>java -jar</code> 一键启动，告别 war 包和外部 Tomcat</td>
+</tr>
+<tr>
+<td>默认用的哪个服务器？</td>
+<td><strong>Tomcat</strong>（内嵌版 <code>tomcat-embed-core</code>）</td>
+</tr>
+<tr>
+<td>怎么换 Jetty？</td>
+<td>排除 tomcat starter，引入 jetty starter</td>
+</tr>
+<tr>
+<td>Docker 部署怎么做？</td>
+<td>打 jar → 写 Dockerfile <code>FROM openjdk:17-jdk</code> → <code>ENTRYPOINT java -jar app.jar</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="6-MyBatis-的优缺点"><a href="#6-MyBatis-的优缺点" class="headerlink" title="6. MyBatis 的优缺点"></a>6. MyBatis 的优缺点</h3><p><strong>一、MyBatis 是什么</strong></p>
+<p>SQL 和 Java 代码分离的半自动 ORM 框架：SQL 写在 XML&#x2F;注解里，框架负责把结果映射为 Java 对象，但 <strong>SQL 你来写</strong>。</p>
+<p><strong>二、优点</strong></p>
+<table>
+<thead>
+<tr>
+<th>优点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>SQL 可控</strong></td>
+<td>自己写 SQL，复杂查询、多表关联、性能调优完全自主，不会被框架生成烂 SQL</td>
+</tr>
+<tr>
+<td><strong>动态 SQL</strong></td>
+<td><code>&lt;if&gt;</code>、<code>&lt;foreach&gt;</code>、<code>&lt;choose&gt;</code> 灵活拼 SQL，条件查询不用拼字符串</td>
+</tr>
+<tr>
+<td><strong>轻量</strong></td>
+<td>没有 Hibernate 的自动建表、脏检查、一级缓存那么重的机制，上手快</td>
+</tr>
+<tr>
+<td><strong>松耦合</strong></td>
+<td>SQL 独立在 XML 文件中，不改 Java 代码就能调 SQL</td>
+</tr>
+<tr>
+<td><strong>与 Spring 集成好</strong></td>
+<td><code>mybatis-spring-boot-starter</code> 引入即用，<code>@Mapper</code> 接口代理</td>
+</tr>
+</tbody></table>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 动态 SQL：条件查询 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;findUsers&quot;</span> <span class="attr">resultType</span>=<span class="string">&quot;User&quot;</span>&gt;</span></span><br><span class="line">    SELECT * FROM user</span><br><span class="line">    <span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">&quot;name != null&quot;</span>&gt;</span>AND name LIKE CONCAT(&#x27;%&#x27;, #&#123;name&#125;, &#x27;%&#x27;)<span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">&quot;age != null&quot;</span>&gt;</span>AND age = #&#123;age&#125;<span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">where</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>三、缺点</strong></p>
+<table>
+<thead>
+<tr>
+<th>缺点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>SQL 都得自己写</strong></td>
+<td>简单的 CRUD 也要手写 SQL，不像 JPA 自动生成</td>
+</tr>
+<tr>
+<td><strong>数据库移植难</strong></td>
+<td>SQL 强绑定特定数据库语法（分页、函数），换数据库 &#x3D; 改大量 SQL</td>
+</tr>
+<tr>
+<td><strong>复杂的映射关系配置多</strong></td>
+<td>一对多、多对多、嵌套查询要写 resultMap，层级深时很繁琐</td>
+</tr>
+<tr>
+<td><strong>无对象缓存</strong></td>
+<td>MyBatis 只有一级缓存（SqlSession 级别，很短），二级缓存弱，不像 Hibernate 有完善的多级缓存</td>
+</tr>
+</tbody></table>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 复杂的 resultMap 嵌套 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">&quot;orderDetail&quot;</span> <span class="attr">type</span>=<span class="string">&quot;Order&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">column</span>=<span class="string">&quot;order_id&quot;</span> <span class="attr">property</span>=<span class="string">&quot;id&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collection</span> <span class="attr">property</span>=<span class="string">&quot;items&quot;</span> <span class="attr">column</span>=<span class="string">&quot;order_id&quot;</span></span></span><br><span class="line"><span class="tag">                <span class="attr">select</span>=<span class="string">&quot;findItemsByOrderId&quot;</span>/&gt;</span>  <span class="comment">&lt;!-- N+1 查询风险 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>四、MyBatis vs JPA&#x2F;Hibernate</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>MyBatis</th>
+<th>JPA&#x2F;Hibernate</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>定位</td>
+<td><strong>半自动</strong>（SQL 你写，框架只做映射）</td>
+<td><strong>全自动</strong>（CRUD SQL 自动生成，实体管理）</td>
+</tr>
+<tr>
+<td>SQL 控制</td>
+<td>✅ 完全可控</td>
+<td>❌ 自动生成，复杂查询不可控</td>
+</tr>
+<tr>
+<td>简单 CRUD</td>
+<td>要手写 SQL</td>
+<td>一个 <code>save()</code> 搞定</td>
+</tr>
+<tr>
+<td>多表&#x2F;复杂查询</td>
+<td>✅ 手写优化</td>
+<td>❌ 自动 SQL 可能烂</td>
+</tr>
+<tr>
+<td>移植性</td>
+<td>❌ 数据库强绑定</td>
+<td>✅ 方言抽象，换库省事</td>
+</tr>
+<tr>
+<td>学习成本</td>
+<td>低（会写 SQL 就行）</td>
+<td>高（实体状态、级联、懒加载）</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>SQL 密集型、报表、复杂查询</td>
+<td>标准 CRUD、快速开发</td>
+</tr>
+</tbody></table>
+<p><strong>五、怎么选？</strong></p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>选择</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>互联网项目，SQL 复杂，要调优</td>
+<td><strong>MyBatis</strong></td>
+</tr>
+<tr>
+<td>企业内部系统，表单增删改查为主</td>
+<td><strong>JPA</strong></td>
+</tr>
+<tr>
+<td>两者都要</td>
+<td><strong>MyBatis-Plus</strong>（简单 CRUD 自动生成 + 复杂查询手写 SQL）</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MyBatis 是 ORM 吗？</td>
+<td>是<strong>半自动</strong> ORM，SQL 和映射分离，自己写 SQL</td>
+</tr>
+<tr>
+<td>MyBatis 缓存？</td>
+<td>一级缓存 SqlSession 级别，二级缓存 namespace 级别（默认关闭）</td>
+</tr>
+<tr>
+<td><code>#&#123;&#125;</code> 和 <code>$&#123;&#125;</code> 区别？</td>
+<td><code>#&#123;&#125;</code> 预编译占位符（防注入），<code>$&#123;&#125;</code> 直接拼接（有注入风险，动态表名&#x2F;列名时才用）</td>
+</tr>
+<tr>
+<td>MyBatis-Plus 是什么？</td>
+<td>MyBatis 增强工具，自动生成 CRUD、分页、逻辑删除，减少手写 SQL</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="7-SQL-注入"><a href="#7-SQL-注入" class="headerlink" title="7. SQL 注入"></a>7. SQL 注入</h3><p><strong>一句话</strong>：攻击者把恶意的 SQL 片段拼接到查询语句中，让数据库执行了不该执行的逻辑，导致数据泄露、篡改或删除。</p>
+<p><strong>一、怎么被注入的？—— 字符串拼接</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ❌ 危险：直接拼 SQL</span></span><br><span class="line"><span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> request.getParameter(<span class="string">&quot;name&quot;</span>);</span><br><span class="line"><span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;SELECT * FROM user WHERE name = &#x27;&quot;</span> + name + <span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line"><span class="comment">// 输入：&#x27; OR &#x27;1&#x27;=&#x27;1&#x27; --</span></span><br><span class="line"><span class="comment">// 实际执行：SELECT * FROM user WHERE name = &#x27;&#x27; OR &#x27;1&#x27;=&#x27;1&#x27; --&#x27;</span></span><br><span class="line"><span class="comment">// → 永远为真 → 查出所有用户</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 输入：&#x27;; DROP TABLE user; --</span></span><br><span class="line"><span class="comment">// 实际执行：SELECT * FROM user WHERE name = &#x27;&#x27;; DROP TABLE user; --&#x27;</span></span><br><span class="line"><span class="comment">// → 表被删了</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>二、预编译（PreparedStatement）为什么能防注入？</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ✅ 安全：预编译</span></span><br><span class="line"><span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;SELECT * FROM user WHERE name = ?&quot;</span>;</span><br><span class="line"><span class="type">PreparedStatement</span> <span class="variable">ps</span> <span class="operator">=</span> conn.prepareStatement(sql);</span><br><span class="line">ps.setString(<span class="number">1</span>, request.getParameter(<span class="string">&quot;name&quot;</span>));  <span class="comment">// 参数中任何特殊字符都会被转义</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// SQL 是先编译，后传参：SELECT * FROM user WHERE name = ?</span></span><br><span class="line"><span class="comment">//                                            ↑ 占位符的形状在编译时已经定型</span></span><br><span class="line"><span class="comment">// 传入 &#x27; OR &#x27;1&#x27;=&#x27;1&#x27; → 被当作纯字符串值 → 不会改变 SQL 结构</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>预编译的两步</strong>：</p>
+<ol>
+<li>编译：把 SQL 发送给数据库 → 数据库解析 SQL 结构，确定要查什么</li>
+<li>传参：把参数值发给数据库 → 数据库<strong>只把参数当数据</strong>，不会重新解析 SQL 结构</li>
+</ol>
+<p><strong>三、MyBatis 中 <code>#&#123;&#125;</code> vs <code>$&#123;&#125;</code></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>#&#123;&#125;</code></th>
+<th><code>$&#123;&#125;</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>原理</td>
+<td><strong>预编译占位符</strong>（PreparedStatement 的 <code>?</code>）</td>
+<td><strong>直接拼接字符串</strong></td>
+</tr>
+<tr>
+<td>是否防注入</td>
+<td>✅ 防注入</td>
+<td>❌ 不防</td>
+</tr>
+<tr>
+<td>何时用</td>
+<td><strong>99% 的场景</strong></td>
+<td>动态表名、列名、<code>ORDER BY</code>（这些不能 <code>?</code>）</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ✅ 安全：#&#123;&#125;</span></span><br><span class="line"><span class="meta">@Select(&quot;SELECT * FROM user WHERE name = #&#123;name&#125;&quot;)</span></span><br><span class="line">User <span class="title function_">findByName</span><span class="params">(String name)</span>;  <span class="comment">// → SELECT * FROM user WHERE name = ?</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ❌ 危险：$&#123;&#125;</span></span><br><span class="line"><span class="meta">@Select(&quot;SELECT * FROM user WHERE name = &#x27;$&#123;name&#125;&#x27;&quot;)</span></span><br><span class="line"><span class="comment">// 攻击者输入 &#x27; OR &#x27;1&#x27;=&#x27;1  → 全表泄露</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// $&#123;&#125; 唯一的合法场景：动态排序</span></span><br><span class="line"><span class="meta">@Select(&quot;SELECT * FROM user ORDER BY $&#123;sortField&#125; $&#123;sortOrder&#125;&quot;)</span></span><br><span class="line"><span class="comment">// sortField 和 sortOrder 必须是后端白名单校验过的值，不能直接从前端传</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>四、白名单校验 <code>$&#123;&#125;</code> 参数</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Set&lt;String&gt; ALLOWED_FIELDS = Set.of(<span class="string">&quot;id&quot;</span>, <span class="string">&quot;name&quot;</span>, <span class="string">&quot;age&quot;</span>, <span class="string">&quot;create_time&quot;</span>);</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Set&lt;String&gt; ALLOWED_ORDERS = Set.of(<span class="string">&quot;ASC&quot;</span>, <span class="string">&quot;DESC&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> List&lt;User&gt; <span class="title function_">findByOrder</span><span class="params">(String sortField, String sortOrder)</span> &#123;</span><br><span class="line">    <span class="comment">// 必须做白名单校验！</span></span><br><span class="line">    <span class="keyword">if</span> (!ALLOWED_FIELDS.contains(sortField) || !ALLOWED_ORDERS.contains(sortOrder.toUpperCase())) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;非法排序参数&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mapper.findByOrder(sortField, sortOrder.toUpperCase());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>五、常见注入类型</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>攻击方式</th>
+<th>后果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>始终真</strong></td>
+<td><code>&#39; OR 1=1 --</code></td>
+<td>查出所有数据</td>
+</tr>
+<tr>
+<td><strong>联合查询</strong></td>
+<td><code>&#39; UNION SELECT username, password FROM admin --</code></td>
+<td>偷敏感数据</td>
+</tr>
+<tr>
+<td><strong>注释符</strong></td>
+<td><code>admin&#39;--</code></td>
+<td>绕过密码校验（SQL 注释掉密码部分）</td>
+</tr>
+<tr>
+<td><strong>堆叠查询</strong></td>
+<td><code>&#39;; DROP TABLE t; --</code></td>
+<td>删表（部分数据库支持）</td>
+</tr>
+<tr>
+<td><strong>盲注</strong></td>
+<td>根据返回&#x2F;延迟判断是否存在数据</td>
+<td>没有回显时也能猜数据</td>
+</tr>
+</tbody></table>
+<p><strong>六、防御手段</strong></p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>预编译</strong></td>
+<td>99% 场景用 <code>PreparedStatement</code>（MyBatis 的 <code>#&#123;&#125;</code>）</td>
+</tr>
+<tr>
+<td><strong>白名单</strong></td>
+<td><code>$&#123;&#125;</code> 必须配白名单校验</td>
+</tr>
+<tr>
+<td><strong>ORM 框架</strong></td>
+<td>JPA、MyBatis 默认防注入（只要别用 <code>$&#123;&#125;</code>）</td>
+</tr>
+<tr>
+<td><strong>参数校验</strong></td>
+<td>对输入长度、类型做校验</td>
+</tr>
+<tr>
+<td><strong>最小权限</strong></td>
+<td>数据库用户只给需要的权限（不让删表）</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SQL 注入的根因？</td>
+<td>用户输入当成 SQL 代码执行了</td>
+</tr>
+<tr>
+<td>预编译为什么能防？</td>
+<td>编译结构先行，参数只当数据不参与解析</td>
+</tr>
+<tr>
+<td><code>#&#123;&#125;</code> 和 <code>$&#123;&#125;</code> 区别？</td>
+<td><code>#&#123;&#125;</code> 预编译防注入；<code>$&#123;&#125;</code> 字符串拼接不防</td>
+</tr>
+<tr>
+<td><code>$&#123;&#125;</code> 什么场景必须用？</td>
+<td>动态表名、列名、<code>ORDER BY</code> → 必须白名单校验</td>
+</tr>
+<tr>
+<td>登录是否被注入怎么测？</td>
+<td>输入 <code>&#39; OR &#39;1&#39;=&#39;1</code> &#x2F; <code>&#39; OR 1=1 --</code>，正常返回就说明被注入了</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="8-MyBatis-插件运行原理"><a href="#8-MyBatis-插件运行原理" class="headerlink" title="8. MyBatis 插件运行原理"></a>8. MyBatis 插件运行原理</h3><p><strong>一句话</strong>：MyBatis 插件基于<strong>拦截器 + JDK 动态代理</strong>，在四大组件（Executor、StatementHandler、ParameterHandler、ResultSetHandler）的方法调用前后织入自定义逻辑。</p>
+<p><strong>一、四大组件（可拦截的对象）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SqlSession</span><br><span class="line">  └── Executor（执行器）</span><br><span class="line">        ├── StatementHandler（创建/执行 JDBC Statement） ← 分页插件在这拦截</span><br><span class="line">        │     ├── ParameterHandler（设置 SQL 参数）</span><br><span class="line">        │     └── ResultSetHandler（结果集映射）</span><br><span class="line">        └── Executor.query/update  ← 也可以拦截 Executor</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>职责</th>
+<th>典型拦截场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Executor</strong></td>
+<td>SQL 调度执行、二级缓存</td>
+<td>慢 SQL 监控、事务日志</td>
+</tr>
+<tr>
+<td><strong>StatementHandler</strong></td>
+<td>创建 Statement、执行 SQL</td>
+<td><strong>分页</strong>（PageHelper 的核心）</td>
+</tr>
+<tr>
+<td><strong>ParameterHandler</strong></td>
+<td>给 <code>?</code> 占位符设值</td>
+<td>参数加密</td>
+</tr>
+<tr>
+<td><strong>ResultSetHandler</strong></td>
+<td>结果集 → Java 对象映射</td>
+<td>结果脱敏</td>
+</tr>
+</tbody></table>
+<p><strong>二、插件实现原理：JDK 动态代理链</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 自定义拦截器</span></span><br><span class="line"><span class="meta">@Intercepts(&#123;</span></span><br><span class="line"><span class="meta">    @Signature(type = StatementHandler.class, method = &quot;prepare&quot;, args = &#123;Connection.class, Integer.class&#125;)</span></span><br><span class="line"><span class="meta">&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PageInterceptor</span> <span class="keyword">implements</span> <span class="title class_">Interceptor</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">intercept</span><span class="params">(Invocation invocation)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">        <span class="comment">// 拿到 StatementHandler → 修改原 SQL → 加上 LIMIT</span></span><br><span class="line">        <span class="type">StatementHandler</span> <span class="variable">handler</span> <span class="operator">=</span> (StatementHandler) invocation.getTarget();</span><br><span class="line">        <span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> handler.getBoundSql().getSql();</span><br><span class="line">        sql = sql + <span class="string">&quot; LIMIT 10 OFFSET 0&quot;</span>;  <span class="comment">// 加上分页</span></span><br><span class="line">        <span class="comment">// 继续执行</span></span><br><span class="line">        <span class="keyword">return</span> invocation.proceed();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. MyBatis 加载插件时，调用 plugin() 方法</span></span><br><span class="line"><span class="comment">// 对四大组件逐个调用 plugin() → 如果需要拦截，就生成 JDK 动态代理</span></span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">plugin</span><span class="params">(Object target)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Plugin.wrap(target, <span class="built_in">this</span>);  <span class="comment">// 内部用 Proxy.newProxyInstance()</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>三、插件加载流程</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">MyBatis 配置阶段（解析 mybatis-config.xml / 扫描 @Intercepts 注解）：</span><br><span class="line">  1. 解析所有 &lt;plugin&gt; 标签或 @Intercepts 注解</span><br><span class="line">  2. 实例化 Interceptor 对象（如 PageHelper、MyBatis-Plus 分页插件）</span><br><span class="line">  3. 调用 InterceptorChain.pluginAll(target)</span><br><span class="line"></span><br><span class="line">MyBatis 运行时（创建四大组件时）：</span><br><span class="line">  1. 每创建一个组件（如 new StatementHandler）→ 立即走 InterceptorChain</span><br><span class="line">  2. InterceptorChain 遍历所有 Interceptor 的 plugin() 方法</span><br><span class="line">  3. Plugin.wrap(target, interceptor) 判断是否需要拦截这个类的方法</span><br><span class="line">     - 需要 → 返回 JDK 动态代理对象</span><br><span class="line">     - 不需要 → 返回原始对象</span><br><span class="line">  4. 最终得到的是一个层层包装的代理对象（多个插件形成代理链）</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">原始对象 StatementHandlerImpl</span><br><span class="line">  → Plugin1 代理（PageHelper：拦截 prepare 方法）</span><br><span class="line">    → Plugin2 代理（监控插件：拦截 query 方法）</span><br><span class="line">      → 最终返回 双重代理对象</span><br></pre></td></tr></table></figure>
+
+<p><strong>四、<code>@Signature</code> 注解的三个要素</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Intercepts(&#123;</span></span><br><span class="line"><span class="meta">    @Signature(</span></span><br><span class="line"><span class="meta">        type = StatementHandler.class,        // 拦截哪个组件</span></span><br><span class="line"><span class="meta">        method = &quot;prepare&quot;,                    // 拦截哪个方法</span></span><br><span class="line"><span class="meta">        args = &#123;Connection.class, Integer.class&#125;  // 参数列表（区分重载方法）</span></span><br><span class="line"><span class="meta">    )</span></span><br><span class="line"><span class="meta">&#125;)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>五、PageHelper 分页原理（最知名的 MyBatis 插件）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 拦截 Executor.query(MappedStatement, parameter, RowBounds, ResultHandler)</span><br><span class="line">2. 从 ThreadLocal 读取 pageNum、pageSize（开发者在 service 层设的）</span><br><span class="line">3. 拿到原 SQL → 包装为 &quot;SELECT COUNT(*) FROM (原SQL)&quot; → 先查总数</span><br><span class="line">4. 给原 SQL 拼接 LIMIT pageSize OFFSET (pageNum-1)*pageSize</span><br><span class="line">5. 设置 RowBounds 参数 → 调用 invocation.proceed() 继续执行</span><br></pre></td></tr></table></figure>
+
+<p><strong>六、多个插件的执行顺序</strong></p>
+<ul>
+<li>多个插件对同一个目标生成代理 → <strong>先注册的先代理，最后是最内层</strong></li>
+<li>执行时外层的先进来，然后内层，最后到原始对象 → 类似拦截器链</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">调用 chain.proceed()：</span><br><span class="line">  监控插件（外层）→ 分页插件（内层）→ 真正的方法</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MyBatis 插件基于什么原理？</td>
+<td><strong>JDK 动态代理</strong>，对四大组件生成代理对象</td>
+</tr>
+<tr>
+<td>能拦截哪四大组件？</td>
+<td>Executor、StatementHandler、ParameterHandler、ResultSetHandler</td>
+</tr>
+<tr>
+<td>PageHelper 怎么实现分页？</td>
+<td>拦截 Executor.query → 拼 COUNT + LIMIT → ThreadLocal 传参</td>
+</tr>
+<tr>
+<td>怎么让插件只拦截特定方法？</td>
+<td><code>@Signature</code> 指定 type(类)+method(方法)+args(参数列表)</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="9-索引的基本原理"><a href="#9-索引的基本原理" class="headerlink" title="9. 索引的基本原理"></a>9. 索引的基本原理</h3><p><strong>一句话</strong>：索引就像书的目录，帮你快速定位数据，避免全表扫描。数据库索引底层一般是 <strong>B+ 树</strong>。</p>
+<p><strong>一、没有索引 vs 有索引</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 没有索引：全表扫描，一行一行找，200 万行就是查 200 万次</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;张三&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 有索引：B+ 树搜索，3 层树最多 3 次 IO 就找到，200 万行也就查 3 次</span></span><br><span class="line"><span class="keyword">CREATE</span> INDEX idx_name <span class="keyword">ON</span> <span class="keyword">user</span>(name);</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>无索引（全表扫描）</th>
+<th>有索引（B+ 树）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查找方式</td>
+<td>一行行扫</td>
+<td>导航式查找</td>
+</tr>
+<tr>
+<td>复杂度</td>
+<td><strong>O(n)</strong></td>
+<td><strong>O(log n)</strong></td>
+</tr>
+<tr>
+<td>2000 万行</td>
+<td>一次查 2000 万行</td>
+<td>约 3-4 次 IO</td>
+</tr>
+</tbody></table>
+<p><strong>二、索引背后的数据结构：B+ 树</strong></p>
+<p>**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">            ┌─────┐</span><br><span class="line">            │ 30  │        ← 根节点（只存索引键，不存数据）</span><br><span class="line">            └──┬──┘</span><br><span class="line">       ┌───────┴───────┐</span><br><span class="line">   ┌───┴───┐       ┌───┴───┐</span><br><span class="line">   │ 10|20 │       │ 40|50 │  ← 中间节点</span><br><span class="line">   └─┬─┬─┬─┘       └─┬─┬─┬─┘</span><br><span class="line">     │ │ │           │ │ │</span><br><span class="line">  ┌──┘ │ └──┐    ┌──┘ │ └──┐</span><br><span class="line">  ▼    ▼    ▼    ▼    ▼    ▼</span><br><span class="line">[1-9][11-19][21-29]...          ← 叶子节点（存数据 or 主键，双向链表连接）</span><br></pre></td></tr></table></figure>
+
+<p><strong>为什么是 B+ 树而不是二叉树&#x2F;哈希表？</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据结构</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>二叉树</td>
+<td>数据递增时退化成链表（如 1→2→3→…→10000），查询变 O(n)</td>
+</tr>
+<tr>
+<td>红黑树</td>
+<td>虽然是平衡的，但只有两个分叉，高度大、IO 次数多</td>
+</tr>
+<tr>
+<td>哈希表</td>
+<td>只能精确匹配 <code>=</code>，无法范围查询 <code>&gt;</code> <code>BETWEEN</code>，无法排序</td>
+</tr>
+<tr>
+<td><strong>B+ 树</strong></td>
+<td>✅ 多叉（矮胖）→ 层数少 → IO 少；叶子有序链表 → 范围查询快</td>
+</tr>
+</tbody></table>
+<p><strong>三、B+ 树的核心特性</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>多叉</strong></td>
+<td>一个节点可以存多个 key，叉数大 &#x3D; 树矮 &#x3D; IO 少（一个节点 &#x3D; 一个磁盘页）</td>
+</tr>
+<tr>
+<td><strong>数据全在叶子节点</strong></td>
+<td>非叶子节点只存 key（不存数据）→ 一个节点能存更多 key → 树更矮</td>
+</tr>
+<tr>
+<td><strong>叶子节点有序 + 双向链表</strong></td>
+<td>范围查询 <code>BETWEEN 100 AND 200</code> 找到起点后顺着链表走就行，不用回树</td>
+</tr>
+<tr>
+<td><strong>自平衡</strong></td>
+<td>节点分裂&#x2F;合并自动维护平衡，始终 O(log n)</td>
+</tr>
+</tbody></table>
+<p><strong>四、InnoDB 中索引的具体实现</strong></p>
+<p><strong>主键索引（聚簇索引）</strong>：叶子节点存的是<strong>整行数据</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">主键索引 B+ 树：</span><br><span class="line">  非叶节点：只存主键值</span><br><span class="line">  叶节点：存 整行数据（id=5, name=&#x27;张三&#x27;, age=25, ...）</span><br></pre></td></tr></table></figure>
+
+<p><strong>普通索引（二级索引）</strong>：叶子节点存的是<strong>主键值</strong>，需要<strong>回表</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">普通索引（name）B+ 树：</span><br><span class="line">  非叶节点：存 name 值</span><br><span class="line">  叶节点：存 主键 id 值</span><br><span class="line">  → 拿到 id 后，再去主键索引查整行数据 ← 这叫&quot;回表&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">回表过程：</span><br><span class="line">  SELECT * FROM user WHERE name = &#x27;张三&#x27;;</span><br><span class="line">  1. name 索引树里找到 &#x27;张三&#x27; → 拿到主键 id=5</span><br><span class="line">  2. 拿 id=5 去主键索引树里查 → 拿到整行数据</span><br></pre></td></tr></table></figure>
+
+<p><strong>覆盖索引</strong>：如果查的字段全在索引里了，不用回表。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 有 idx_name_age(name, age) 联合索引</span></span><br><span class="line"><span class="keyword">SELECT</span> name, age <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;张三&#x27;</span>;</span><br><span class="line"><span class="comment">-- 联合索引树叶子里已经有 name 和 age → 不用回表 → 快</span></span><br><span class="line"><span class="comment">-- Extra: Using index ← &quot;覆盖索引&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>五、什么时候建索引？什么时候不建？</strong></p>
+<table>
+<thead>
+<tr>
+<th>该建</th>
+<th>不该建</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>WHERE 后面的条件列</td>
+<td>很少用到的列</td>
+</tr>
+<tr>
+<td>JOIN 的关联列</td>
+<td>内容变化频繁的列（每改一次索引要重建）</td>
+</tr>
+<tr>
+<td>ORDER BY 的排序列</td>
+<td>数据很少的表（几百行，直接扫就完了）</td>
+</tr>
+<tr>
+<td>区分度高的列（性别就不适合，只有男&#x2F;女两种）</td>
+<td>区分度低的列</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>索引底层是什么？</td>
+<td><strong>B+ 树</strong>（多叉平衡树）</td>
+</tr>
+<tr>
+<td>为什么 B+ 树叶子节点连起来？</td>
+<td>范围查询顺着链表走，不用一次一次回树</td>
+</tr>
+<tr>
+<td>回表是什么？</td>
+<td>普通索引拿到主键 → 主键索引再查一次才拿到完整行数据</td>
+</tr>
+<tr>
+<td>覆盖索引是什么？</td>
+<td>查询字段全在索引里 → 不用回表 → <code>Using index</code></td>
+</tr>
+<tr>
+<td>一个表建索引越多越好吗？</td>
+<td>不是，索引也占空间，增删改都要维护索引，过多反而慢</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="10-MySQL-聚簇索引和非聚簇索引的区别"><a href="#10-MySQL-聚簇索引和非聚簇索引的区别" class="headerlink" title="10. MySQL 聚簇索引和非聚簇索引的区别"></a>10. MySQL 聚簇索引和非聚簇索引的区别</h3><p><strong>一、核心区别一句话</strong></p>
+<blockquote>
+<p>聚簇索引的叶子节点<strong>直接存整行数据</strong>，非聚簇索引的叶子节点<strong>存主键值</strong>（想拿完整数据必须回表）。</p>
+</blockquote>
+<p><strong>二、一张图看懂</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">聚簇索引（主键索引）B+ 树：             非聚簇索引（普通索引）B+ 树：</span><br><span class="line">  非叶节点：只存主键                        非叶节点：存索引列值</span><br><span class="line">  叶节点：存 整行数据                        叶节点：存 主键值</span><br><span class="line">                                          ↓</span><br><span class="line">                                    回表 → 聚簇索引 → 拿到整行数据</span><br></pre></td></tr></table></figure>
+
+<p><strong>三、详细对比</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>聚簇索引</th>
+<th>非聚簇索引</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>别名</td>
+<td>主键索引</td>
+<td>二级索引 &#x2F; 辅助索引</td>
+</tr>
+<tr>
+<td>叶子节点存什么</td>
+<td><strong>整行数据</strong></td>
+<td><strong>主键值</strong>（不是物理地址，而是主键）</td>
+</tr>
+<tr>
+<td>一个表能有几个</td>
+<td><strong>一个</strong>（数据只能按一种顺序物理存储）</td>
+<td><strong>多个</strong>（可以有多个二级索引）</td>
+</tr>
+<tr>
+<td>是否回表</td>
+<td>查主键 → 直接拿到整行数据</td>
+<td>查普通列 → 拿主键 → <strong>回表</strong>找主键索引</td>
+</tr>
+<tr>
+<td>主键是否自动创建</td>
+<td>InnoDB 有主键就用，没主键用第一个唯一索引，都没有 <strong>自动建隐藏_rowid</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>物理存储</td>
+<td>叶子节点<strong>即数据本身</strong>（索引和数据在一起）</td>
+<td>索引和数据分离（叶子只有主键值）</td>
+</tr>
+</tbody></table>
+<p><strong>四、InnoDB 和 MyISAM 的区别</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>InnoDB</th>
+<th>MyISAM</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主键索引</td>
+<td><strong>聚簇索引</strong>（叶子存整行数据）</td>
+<td><strong>非聚簇</strong>（叶子存数据行的物理地址）</td>
+</tr>
+<tr>
+<td>普通索引</td>
+<td>叶子存主键值 + 回表</td>
+<td>叶子存数据行的物理地址</td>
+</tr>
+<tr>
+<td>数据文件</td>
+<td><code>.ibd</code>（索引即数据）</td>
+<td><code>.MYD</code>（数据文件）+ <code>.MYI</code>（索引文件）分离</td>
+</tr>
+<tr>
+<td>事务</td>
+<td>✅ 支持</td>
+<td>❌ 不支持</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MyISAM：所有索引都是非聚簇的，叶子存的是物理地址</span><br><span class="line"> 索引B+树 → 叶子节点 = 数据行地址 → 直接跳到 .MYD 文件读数据 → 不用回表</span><br><span class="line"></span><br><span class="line">InnoDB：主键索引是聚簇的，普通索引叶子存主键</span><br><span class="line"> 普通索引 → 叶子节点 = 主键值 → 再去主键索引查整行 → 回表（多一次 IO）</span><br></pre></td></tr></table></figure>
+
+<p><strong>五、为什么 InnoDB 普通索引存主键而不是物理地址？</strong></p>
+<table>
+<thead>
+<tr>
+<th>存物理地址</th>
+<th>存主键</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>页分裂&#x2F;数据移动时 → <strong>所有索引都要更新地址</strong></td>
+<td>只需更新主键索引，普通索引不用动</td>
+</tr>
+<tr>
+<td>维护成本极高</td>
+<td>✅ 维护成本低</td>
+</tr>
+</tbody></table>
+<p><strong>六、为什么建议用自增主键？</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">如果用 UUID 做主键：</span><br><span class="line">  新插入的 UUID 不是递增的 → 可能插到已满的中间页 → 页分裂 → 开销大</span><br><span class="line"></span><br><span class="line">如果用自增 ID：</span><br><span class="line">  新插入的 ID 总是最大值 → 永远往最后面追加 → 不需要页分裂 → 写入快</span><br><span class="line">  主键值小（8 字节）→ 普通索引叶子节点存的键也小 → 一个页能装更多索引</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- ✅ 推荐</span></span><br><span class="line"><span class="keyword">CREATE TABLE</span> <span class="keyword">user</span> (</span><br><span class="line">    id <span class="type">BIGINT</span> AUTO_INCREMENT <span class="keyword">PRIMARY KEY</span>,  <span class="comment">-- 自增主键</span></span><br><span class="line">    name <span class="type">VARCHAR</span>(<span class="number">50</span>),</span><br><span class="line">    INDEX idx_name(name)                   <span class="comment">-- 非聚簇索引</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询命中非聚簇索引：回表</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> name <span class="operator">=</span> <span class="string">&#x27;张三&#x27;</span>;</span><br><span class="line"><span class="comment">-- 1. idx_name B+ 树 → 找到主键 id=100</span></span><br><span class="line"><span class="comment">-- 2. 主键索引 → 找到 id=100 的整行数据</span></span><br><span class="line"><span class="comment">-- 3. 返回</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一个表能有几个聚簇索引？</td>
+<td><strong>1 个</strong>，数据只能按一种顺序物理存放</td>
+</tr>
+<tr>
+<td>InnoDB 没有主键怎么办？</td>
+<td>用第一个唯一非空索引，都没有就自动建 6 字节隐藏 <code>_rowid</code></td>
+</tr>
+<tr>
+<td>回表是什么？</td>
+<td>二级索引拿到主键 → 主键索引再查整行 → 多一次 IO</td>
+</tr>
+<tr>
+<td>自增主键 vs UUID 主键？</td>
+<td>自增写入快（不分裂）、索引瘦；UUID 页分裂多、索引胖</td>
+</tr>
+</tbody></table>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://m00tin3.github.io">蓝原柚子</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://m00tin3.github.io/2026/06/04/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-Spring%E4%B8%8EMySQL%E5%9F%BA%E7%A1%80/">https://m00tin3.github.io/2026/06/04/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-Spring%E4%B8%8EMySQL%E5%9F%BA%E7%A1%80/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://m00tin3.github.io" target="_blank">蓝原柚子的技术小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Spring-Boot/">Spring Boot</a><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a><a class="post-meta__tags" href="/tags/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1/">每日八股</a><a class="post-meta__tags" href="/tags/%E7%B4%A2%E5%BC%95/">索引</a><a class="post-meta__tags" href="/tags/Spring/">Spring</a><a class="post-meta__tags" href="/tags/Spring-MVC/">Spring MVC</a><a class="post-meta__tags" href="/tags/Starter/">Starter</a><a class="post-meta__tags" href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%9C%8D%E5%8A%A1%E5%99%A8/">嵌入式服务器</a><a class="post-meta__tags" href="/tags/MyBatis/">MyBatis</a><a class="post-meta__tags" href="/tags/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a><a class="post-meta__tags" href="/tags/%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95/">聚簇索引</a></div><div class="post-share"><div class="social-share" data-image="https://m00tin3.oss-cn-shanghai.aliyuncs.com/%E8%8A%BF%E8%A1%A3.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/05/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-MySQL%E4%B8%8ERedis%E6%B7%B1%E5%BA%A6/" title="每日八股 | MySQL索引、锁、EXPLAIN、MVCC、主从、RDB/AOF、Redis、缓存问题、分布式"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">每日八股 | MySQL索引、锁、EXPLAIN、MVCC、主从、RDB/AOF、Redis、缓存问题、分布式</div></div><div class="info-2"><div class="info-item-1">2026&#x2F;6&#x2F;51. MySQL 索引的数据结构及各自优势MySQL 常见的四种索引数据结构：    数据结构 MySQL 中使用 核心优势    B+ 树 InnoDB、MyISAM 默认 支持范围查询、排序、矮胖 IO 少   哈希 MEMORY 引擎、InnoDB 自适应哈希 等值查询 O(1)   全文索引（倒排索引） InnoDB FULLTEXT（5.6+） 文本搜索：MATCH...AGAINST   空间索引（R 树） MyISAM、InnoDB（5.7+）GIS 地理位置查询：ST_Contains   一、B+ 树 —— 主力，InnoDB 默认 123456789         ┌─────┐         │ 100 │          ← 非叶节点：只存 key         └──┬──┘    ┌───────┴───────┐┌───┴───┐       ┌───┴───┐│ 30|60 │       │150|180│  ← 中间节点└─┬─┬─┬─┘       └─┬─┬─┬─┘  ↓ ↓ ↓         ...</div></div></div></a><a class="pagination-related" href="/2026/06/03/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-Spring%E4%B8%8E%E5%B9%B6%E5%8F%91%E6%B7%B1%E5%BA%A6/" title="每日八股 | 并发三大特性、线程池阻塞队列、线程复用、Spring核心、Bean生命周期、作用域、自动装配、事务、设计模式"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">每日八股 | 并发三大特性、线程池阻塞队列、线程复用、Spring核心、Bean生命周期、作用域、自动装配、事务、设计模式</div></div><div class="info-2"><div class="info-item-1">2026&#x2F;6&#x2F;31. 并发三大特性：原子性、可见性、有序性一句话：并发编程的所有 bug 都能归结为这三大问题 —— 原子性、可见性、有序性被打破。    特性 问题 原因 解决方案    原子性 一个操作被打断 CPU 时间片轮转，线程切换 synchronized、Lock、AtomicInteger（CAS）   可见性 一个线程改了，另一个看不到 CPU 缓存 + JMM 工作内存 volatile、synchronized、Lock   有序性 代码执行顺序被打乱 编译器&#x2F;CPU 指令重排 volatile、synchronized、Lock   一、原子性 一个或多个操作要么全部执行完且不被打断，要么全不执行。 123int count = 0;// count++ 不是原子操作！包含 3 步：读 → 加 → 写// 线程A 读到 0，还没加 1 → 线程B 也读到 0 → 都写回 1 → 丢失一次累加     方式 说明    synchronized 锁住代码块，串行执行   Lock 显式锁，粒度更灵活   AtomicIntege...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/02/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-%E5%B9%B6%E5%8F%91%E4%B8%8EJVM%E6%A0%B8%E5%BF%83/" title="每日八股 | ConcurrentHashMap、IOC容器、字节码、类加载器、GC、线程生命周期、锁池等待池、List和Set、栈堆线程安全、守护线程、ThreadLocal、并行串行并发"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-02</div><div class="info-item-2">每日八股 | ConcurrentHashMap、IOC容器、字节码、类加载器、GC、线程生命周期、锁池等待池、List和Set、栈堆线程安全、守护线程、ThreadLocal、并行串行并发</div></div><div class="info-2"><div class="info-item-1">2026&#x2F;6&#x2F;21. ConcurrentHashMap 原理及 JDK 1.7 vs 1.8JDK 1.7：Segment 分段锁  默认 16 个 Segment，每个 Segment 继承 ReentrantLock + 内含 HashEntry 数组 put 只锁当前 Segment，get 无锁（value、next 都是 volatile） Segment 数量初始化后不可变，扩容只扩 Segment 内部的 HashEntry size 计算：先不加锁算 3 次，不一致再全局加锁  JDK 1.8：CAS + synchronized + 红黑树  抛弃 Segment，结构与 HashMap 1.8 对齐（Node 数组 + 链表 + 红黑树） 桶为空 → CAS 插入；桶非空 → synchronized 锁头节点 正在扩容的桶（hash &#x3D;&#x3D; MOVED）→ 当前线程帮忙扩容（helpTransfer） size 用 baseCount + CounterCell 数组（LongAdder 思想，无锁分片计数）     ...</div></div></div></a><a class="pagination-related" href="/2026/06/03/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-Spring%E4%B8%8E%E5%B9%B6%E5%8F%91%E6%B7%B1%E5%BA%A6/" title="每日八股 | 并发三大特性、线程池阻塞队列、线程复用、Spring核心、Bean生命周期、作用域、自动装配、事务、设计模式"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-03</div><div class="info-item-2">每日八股 | 并发三大特性、线程池阻塞队列、线程复用、Spring核心、Bean生命周期、作用域、自动装配、事务、设计模式</div></div><div class="info-2"><div class="info-item-1">2026&#x2F;6&#x2F;31. 并发三大特性：原子性、可见性、有序性一句话：并发编程的所有 bug 都能归结为这三大问题 —— 原子性、可见性、有序性被打破。    特性 问题 原因 解决方案    原子性 一个操作被打断 CPU 时间片轮转，线程切换 synchronized、Lock、AtomicInteger（CAS）   可见性 一个线程改了，另一个看不到 CPU 缓存 + JMM 工作内存 volatile、synchronized、Lock   有序性 代码执行顺序被打乱 编译器&#x2F;CPU 指令重排 volatile、synchronized、Lock   一、原子性 一个或多个操作要么全部执行完且不被打断，要么全不执行。 123int count = 0;// count++ 不是原子操作！包含 3 步：读 → 加 → 写// 线程A 读到 0，还没加 1 → 线程B 也读到 0 → 都写回 1 → 丢失一次累加     方式 说明    synchronized 锁住代码块，串行执行   Lock 显式锁，粒度更灵活   AtomicIntege...</div></div></div></a><a class="pagination-related" href="/2026/06/05/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-MySQL%E4%B8%8ERedis%E6%B7%B1%E5%BA%A6/" title="每日八股 | MySQL索引、锁、EXPLAIN、MVCC、主从、RDB&#x2F;AOF、Redis、缓存问题、分布式"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-05</div><div class="info-item-2">每日八股 | MySQL索引、锁、EXPLAIN、MVCC、主从、RDB&#x2F;AOF、Redis、缓存问题、分布式</div></div><div class="info-2"><div class="info-item-1">2026&#x2F;6&#x2F;51. MySQL 索引的数据结构及各自优势MySQL 常见的四种索引数据结构：    数据结构 MySQL 中使用 核心优势    B+ 树 InnoDB、MyISAM 默认 支持范围查询、排序、矮胖 IO 少   哈希 MEMORY 引擎、InnoDB 自适应哈希 等值查询 O(1)   全文索引（倒排索引） InnoDB FULLTEXT（5.6+） 文本搜索：MATCH...AGAINST   空间索引（R 树） MyISAM、InnoDB（5.7+）GIS 地理位置查询：ST_Contains   一、B+ 树 —— 主力，InnoDB 默认 123456789         ┌─────┐         │ 100 │          ← 非叶节点：只存 key         └──┬──┘    ┌───────┴───────┐┌───┴───┐       ┌───┴───┐│ 30|60 │       │150|180│  ← 中间节点└─┬─┬─┬─┘       └─┬─┬─┬─┘  ↓ ↓ ↓         ...</div></div></div></a><a class="pagination-related" href="/2026/06/01/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-Java%E5%9F%BA%E7%A1%80%E6%A0%B8%E5%BF%83%E9%9D%A2%E8%AF%95%E9%A2%98/" title="Java基础核心面试题12连问 — JDK&#x2F;JVM、集合、异常、HashMap 等"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-01</div><div class="info-item-2">Java基础核心面试题12连问 — JDK&#x2F;JVM、集合、异常、HashMap 等</div></div><div class="info-2"><div class="info-item-1">1. JDK、JRE、JVM 是什么？有什么区别？定义    名词 全称 是什么    JVM Java Virtual Machine Java 虚拟机，执行 .class 字节码，是 Java “一次编译，到处运行” 的核心   JRE Java Runtime Environment Java 运行时环境 &#x3D; JVM + 核心类库（rt.jar等），只负责运行 Java 程序   JDK Java Development Kit Java 开发工具包 &#x3D; JRE + 开发工具（javac、javap、javadoc、jdb等），包含编译和运行能力   三者关系（包含关系） 1234567891011121314┌─────────────────────────┐│          JDK            ││  ┌───────────────────┐  ││  │    开发工具        │  │  ← javac, java, javap, jdb, javadoc...│  │  ┌─────────────┐  │  ││  │...</div></div></div></a><a class="pagination-related" href="/2026/05/31/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-Java%E7%BA%BF%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E6%B1%A0/" title="Java线程创建的几种方式、线程池使用及状态详解"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-31</div><div class="info-item-2">Java线程创建的几种方式、线程池使用及状态详解</div></div><div class="info-2"><div class="info-item-1">1. Java中线程创建的几种方式Java中创建线程主要有四种方式： 方式一：继承 Thread 类 12345678910class MyThread extends Thread &#123;    @Override    public void run() &#123;        System.out.println(&quot;线程运行中：&quot; + Thread.currentThread().getName());    &#125;&#125;// 使用MyThread t = new MyThread();t.start();  方式二：实现 Runnable 接口 1234567891011121314class MyRunnable implements Runnable &#123;    @Override    public void run() &#123;        System.out.println(&quot;线程运行中：&quot; + Thread.currentThread().getName());    &#125;&...</div></div></div></a><a class="pagination-related" href="/2026/05/23/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9FRedis%E5%85%A8%E9%93%BE%E8%B7%AF/" title="秒杀系统Redis全链路 — 从乐观锁到Stream消息队列"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-23</div><div class="info-item-2">秒杀系统Redis全链路 — 从乐观锁到Stream消息队列</div></div><div class="info-2"><div class="info-item-1">秒杀系统 Redis 全链路 从最原始的数据库乐观锁开始，经历 JVM 锁、自研分布式锁、Redisson 看门狗，最终到达 Redis Stream 消息队列的完整演进之路。   一、起点：一个最简单的秒杀接口最初秒杀下单就是串行查库 + 扣库存： 12345// 1. 查优惠券 → 2. 判断时间 → 3. 判断库存 → 4. 扣库存 → 5. 创建订单SeckillVoucher seckillVoucher = iseckillVoucherService.getById(voucherId);if (seckillVoucher.getStock() &lt; 1) return Result.fail(&quot;库存不足&quot;);iseckillVoucherService.update().setSql(&quot;stock = stock - 1&quot;).eq(&quot;voucher_id&quot;, voucherId).update();save(voucherOrder);  这个版本在并发场景下有两个致命问题。  二、第一层防线：乐观...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://m00tin3.oss-cn-shanghai.aliyuncs.com/%E8%8A%BF%E8%A1%A3.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">蓝原柚子</div><div class="author-info-description">从零开始的Java后端开发学习记录 | 分享技术笔记与思考</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">102</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/m00tin3" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2485617328@qq.com" target="_blank" title="QQ邮箱"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2026-6-4"><span class="toc-number">1.</span> <span class="toc-text">2026&#x2F;6&#x2F;4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Spring%E3%80%81Spring-Boot%E3%80%81Spring-MVC-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.</span> <span class="toc-text">1. Spring、Spring Boot、Spring MVC 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Spring-MVC-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">2. Spring MVC 的工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Spring-Boot-%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">3. Spring Boot 自动配置原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3-Spring-Boot-%E4%B8%AD%E7%9A%84-Starter%EF%BC%9F"><span class="toc-number">1.4.</span> <span class="toc-text">4. 如何理解 Spring Boot 中的 Starter？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%BB%80%E4%B9%88%E6%98%AF%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%EF%BC%9F"><span class="toc-number">1.5.</span> <span class="toc-text">5. 什么是嵌入式服务器？为什么要使用？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-MyBatis-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.6.</span> <span class="toc-text">6. MyBatis 的优缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-SQL-%E6%B3%A8%E5%85%A5"><span class="toc-number">1.7.</span> <span class="toc-text">7. SQL 注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-MyBatis-%E6%8F%92%E4%BB%B6%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="toc-number">1.8.</span> <span class="toc-text">8. MyBatis 插件运行原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E7%B4%A2%E5%BC%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-number">1.9.</span> <span class="toc-text">9. 索引的基本原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-MySQL-%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95%E5%92%8C%E9%9D%9E%E8%81%9A%E7%B0%87%E7%B4%A2%E5%BC%95%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.10.</span> <span class="toc-text">10. MySQL 聚簇索引和非聚簇索引的区别</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/05/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-MySQL%E4%B8%8ERedis%E6%B7%B1%E5%BA%A6/" title="每日八股 | MySQL索引、锁、EXPLAIN、MVCC、主从、RDB/AOF、Redis、缓存问题、分布式">每日八股 | MySQL索引、锁、EXPLAIN、MVCC、主从、RDB/AOF、Redis、缓存问题、分布式</a><time datetime="2026-06-05T00:00:00.000Z" title="发表于 2026-06-05 08:00:00">2026-06-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/04/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-Spring%E4%B8%8EMySQL%E5%9F%BA%E7%A1%80/" title="每日八股 | Spring/SpringBoot/SpringMVC、Starter、嵌入式服务器、MyBatis、SQL注入、索引、聚簇非聚簇">每日八股 | Spring/SpringBoot/SpringMVC、Starter、嵌入式服务器、MyBatis、SQL注入、索引、聚簇非聚簇</a><time datetime="2026-06-04T00:00:00.000Z" title="发表于 2026-06-04 08:00:00">2026-06-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/03/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-Spring%E4%B8%8E%E5%B9%B6%E5%8F%91%E6%B7%B1%E5%BA%A6/" title="每日八股 | 并发三大特性、线程池阻塞队列、线程复用、Spring核心、Bean生命周期、作用域、自动装配、事务、设计模式">每日八股 | 并发三大特性、线程池阻塞队列、线程复用、Spring核心、Bean生命周期、作用域、自动装配、事务、设计模式</a><time datetime="2026-06-03T00:00:00.000Z" title="发表于 2026-06-03 08:00:00">2026-06-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/02/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-%E5%B9%B6%E5%8F%91%E4%B8%8EJVM%E6%A0%B8%E5%BF%83/" title="每日八股 | ConcurrentHashMap、IOC容器、字节码、类加载器、GC、线程生命周期、锁池等待池、List和Set、栈堆线程安全、守护线程、ThreadLocal、并行串行并发">每日八股 | ConcurrentHashMap、IOC容器、字节码、类加载器、GC、线程生命周期、锁池等待池、List和Set、栈堆线程安全、守护线程、ThreadLocal、并行串行并发</a><time datetime="2026-06-02T00:00:00.000Z" title="发表于 2026-06-02 08:00:00">2026-06-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/01/%E6%AF%8F%E6%97%A5%E5%85%AB%E8%82%A1-Java%E5%9F%BA%E7%A1%80%E6%A0%B8%E5%BF%83%E9%9D%A2%E8%AF%95%E9%A2%98/" title="Java基础核心面试题12连问 — JDK/JVM、集合、异常、HashMap 等">Java基础核心面试题12连问 — JDK/JVM、集合、异常、HashMap 等</a><time datetime="2026-06-01T00:00:00.000Z" title="发表于 2026-06-01 08:00:00">2026-06-01</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By 蓝原柚子</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
