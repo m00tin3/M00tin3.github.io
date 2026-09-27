@@ -1,0 +1,41 @@
+/* ---- 图解样式（面试文档 SVG 图解系统） ---- */
+figure.fig {
+  margin: 22px 0;
+  padding: 16px 14px 12px;
+  border: 1px solid #d8dee4;
+  border-radius: 10px;
+  background: #fcfdfe;
+  overflow-x: auto;
+}
+figure.fig svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+figure.fig figcaption {
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px dashed #d8dee4;
+  text-align: center;
+  font-size: 12.5px;
+  color: #656d76;
+  line-height: 1.65;
+}
+/* 图内图形语言：内联 SVG 直接继承页面 CSS */
+.dg text { font-family: inherit; font-size: 12.5px; fill: #1f2328; }
+.dg .tsm { font-size: 11.5px; }
+.dg .tmu { fill: #656d76; }
+.dg .tbd { font-weight: 700; }
+.dg .b { font-weight: 700; }
+.dg .acc { fill: #0969da; }
+.dg .t { fill: #1f2328; }
+.dg .bx { fill: #f6f8fa; stroke: #d8dee4; stroke-width: 1.3; }
+.dg .bs { fill: #ddf4ff; stroke: #54aeff; stroke-width: 1.3; }
+.dg .bp { fill: #dafbe1; stroke: #4ac26b; stroke-width: 1.3; }
+.dg .bw { fill: #fff8c5; stroke: #d4a72c; stroke-width: 1.3; }
+.dg .br { fill: #ffebe9; stroke: #ff8182; stroke-width: 1.3; }
+.dg .ba { fill: #f3f0ff; stroke: #a371f7; stroke-width: 1.3; }
+.dg .bg { fill: #dafbe1; stroke: #1a7f37; stroke-width: 1.3; }
+.dg .ln, .dg .lna { fill: none; stroke: #8c959f; stroke-width: 1.3; }
+.dg .lna { stroke: #0969da; stroke-width: 1.7; }
